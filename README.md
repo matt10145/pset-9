@@ -1,5 +1,4 @@
-# Game Suite
+# Game Suite - Problem Set 9
 
-- pset 9
 - Matthew Hui
 
