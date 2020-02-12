@@ -15,6 +15,11 @@ hr {
     border: 1px solid black;
 }
 
+.header-details {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
 
 /*
 * The container is a flex-box, which is a powerful layout tool. It grows
@@ -57,12 +62,17 @@ hr {
 }
 
 .square:hover {
-    background-color: white;
+    background-color: gray;
     cursor: pointer;
 }
 
-#blackSquare {
+.blackSquare {
     background-color: black;
+}
+
+.blackSquare:hover {
+    background-color: gray;
+    cursor: pointer;
 }
 
 #reset-button {
