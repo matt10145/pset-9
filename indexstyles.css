@@ -5,14 +5,25 @@ body {
 }
 
 h1 {
-    margin: 0 auto;
     font-family: "Major Mono Display", monospace;
     font-size: 55px;
-    margin: 1%;
+    margin: 2%;
 }
 
 hr {
     border: 1px solid black;
+}
+
+p {
+    font-size: 20px;
+}
+
+a, a:visited {
+    color: black;
+}
+
+a:hover {
+    color: lightcoral;
 }
 
 .header-details {
@@ -23,3 +34,12 @@ hr {
 .image {
     padding: 20px;
 }
+
+.footer p {
+    font-size: 14px;
+    width: 100%;
+    bottom: 0;
+    position: fixed;
+}
+
+

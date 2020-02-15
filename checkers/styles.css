@@ -5,15 +5,29 @@ body {
 }
 
 h1 {
-    margin: 0 auto;
     font-family: "Major Mono Display", monospace;
-    font-size: 48px;
+    font-size: 55px;
+    margin: 2%;
+}
+
+h2 {
+    font-size: 34px;
+    font-weight: lighter;
     margin: 2%;
 }
 
 hr {
     border: 1px solid black;
 }
+
+a, a:visited {
+    color: black;
+}
+
+a:hover {
+    color: lightcoral;
+}
+
 
 .header-details {
     padding-left: 15px;
@@ -37,6 +51,14 @@ hr {
     width: 100%;
     flex-direction: column; /* align children in columns instead of rows */
 }
+
+.barrier {
+    flex-wrap: wrap;
+    flex-direction: row;
+    height: 110px;
+    width: 425px;
+    align-items: center;
+    }
 
 .wrap {
     flex-wrap: wrap; /* tells container to drop down once it reaches max-width */

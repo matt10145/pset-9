@@ -5,9 +5,8 @@ body {
 }
 
 h1 {
-    margin: 0 auto;
     font-family: "Major Mono Display", monospace;
-    font-size: 48px;
+    font-size: 55px;
     margin: 2%;
 }
 
@@ -23,6 +22,20 @@ hr {
 
 p {
     font-size: 20px;
+}
+
+a, a:visited {
+    color: black;
+}
+
+a:hover {
+    color: lightcoral;
+}
+
+
+.header-details {
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 /*
