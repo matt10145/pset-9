@@ -62,8 +62,8 @@ a:hover {
 
 .wrap {
     flex-wrap: wrap; /* tells container to drop down once it reaches max-width */
-    height: 810px;
-    width: 900px;
+    height: 620px;
+    width: 700px;
 }
 
 .barrier {
@@ -77,10 +77,10 @@ a:hover {
 .square {
     border: 1px solid rgba(0, 0, 0, 0.75);
     font-size: 96px;
-    height: 100px;
+    height: 80px;
     line-height: 150px;
     user-select: none;
-    width: 100px;
+    width: 80px;
 }
 
 .square:hover {
@@ -89,7 +89,7 @@ a:hover {
 }
 
 .blackSquare {
-    background-color: black;
+    background-color: #3d3d3d;
 }
 
 .blackSquare:hover {
@@ -104,6 +104,7 @@ a:hover {
     font-size: 21px;
     line-height: 55px;
     margin: 1%;
+    margin-top: 5%;
     text-align: center;
     width: 456px;
 }
