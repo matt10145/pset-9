@@ -20,6 +20,7 @@ hr {
     border: 1px solid black;
 }
 
+
 a, a:visited {
     color: black;
 }
@@ -52,13 +53,19 @@ a:hover {
     flex-direction: column; /* align children in columns instead of rows */
 }
 
+.container .square div {
+    margin-top: 20%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .barrier {
     flex-wrap: wrap;
     flex-direction: row;
     height: 110px;
     width: 425px;
     align-items: center;
-    }
+}
 
 .wrap {
     flex-wrap: wrap; /* tells container to drop down once it reaches max-width */
