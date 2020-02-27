@@ -4,6 +4,8 @@
 let turn;
 let board;
 let win;
+let whiteScore;
+let blackScore;
 
 ///// CACHED ELEMENT REFERENCES  /////
 const squares = Array.from(document.querySelectorAll("#board div"));
@@ -14,8 +16,8 @@ window.onload = function() {
     init();
 
 }
-document.getElementById("#board").onclick = takeTurn;
-
+document.getElementById("board").onclick = takeTurn;
+document.getElementById("reset-button").onclick = init;
 
 ///// FUNCTIONS  /////
 function init() {
@@ -28,14 +30,17 @@ function init() {
             "", "B", "", "B", "", "B", "", "B",
             "B", "", "B", "", "B", "", "B", "",];
     turn = "BLACK";
+    win = null;
+    whiteScore = 0;
+    blackScore = 0;
 
     render();
 }
 
 function render() {
-    board.forEach(function(mark, index) {
-        if (mark === "W") createPiece(index, "white");
-        if (mark === "B") createPiece(index, "black");
+    board.forEach(function(piece, index) {
+        if (piece === "W") createPiece(index, "white");
+        if (piece === "B") createPiece(index, "black");
     });
     turnUpdate.textContent = `TURN: ${turn}`;
 }
@@ -46,8 +51,9 @@ function render() {
  */
 function takeTurn(e) {
     let target = e.target;
-    let id = target.id;
-
+    let id = target.parentElement.id;
+    
+    // removePiece(id);
 
 }
 
@@ -60,7 +66,7 @@ function isValidMoves() {
 }
 
 /**
- * Checks whether, after one move, the same player can move again.
+ * Checks whether, after one move, the same piece can move again.
  */
 function canMoveAgain() {
 
@@ -79,4 +85,19 @@ function createPiece(index, color) {
     div.style.borderRadius = "50%";
     div.style.backgroundColor = color;
     outer.append(div);
+}
+
+/**
+ * Removes pieces from the checkerboard (referenced in takeTurn).
+ * @param index the id of the piece to be removed 
+ */
+function removePiece(index) {
+    let element = document.getElementById(String(index));
+    while (element.firstChild) {
+        element.removeChild(element.firstChild);
+    }
+
+
+
+    // this should work....just need to make sure it doesn't remove the entire board??
 }
