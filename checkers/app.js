@@ -112,4 +112,6 @@ function removePiece(index) {
  */
 function getWinner() {
     let winner = null;
+
+
 }
