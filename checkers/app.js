@@ -52,7 +52,7 @@ function render() {
 function takeTurn(e) {
     let target = e.target;
     let id = target.parentElement.id;
-    
+
     // removePiece(id);
 
 }
@@ -89,7 +89,7 @@ function createPiece(index, color) {
 
 /**
  * Removes pieces from the checkerboard (referenced in takeTurn).
- * @param index the id of the piece to be removed 
+ * @param index the id of the piece to be removed
  */
 function removePiece(index) {
     let element = document.getElementById(String(index));
@@ -98,6 +98,12 @@ function removePiece(index) {
     }
 
 
-
     // this should work....just need to make sure it doesn't remove the entire board??
+}
+
+/**
+ * Gets and displays the winner of the game by checking if one side has zero pieces left.
+ */
+function getWinner() {
+
 }
