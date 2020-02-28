@@ -53,7 +53,13 @@ function takeTurn(e) {
     let target = e.target;
     let id = target.parentElement.id;
 
-    // removePiece(id);
+    // block turns by checking background color style of the piece
+    //
+
+    // take turns by getting id of parent element, which I have, and then
+    // check the array index (id - 1) whether its empty or has a piece.
+    // // if there is a piece, check for valid moves in the array itself
+    // re render at the end by updating the clicked index and using removePiece
 
 }
 
@@ -105,5 +111,5 @@ function removePiece(index) {
  * Gets and displays the winner of the game by checking if one side has zero pieces left.
  */
 function getWinner() {
-
+    let winner = null;
 }
