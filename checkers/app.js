@@ -20,6 +20,10 @@ document.getElementById("board").onclick = takeTurn;
 document.getElementById("reset-button").onclick = init;
 
 ///// FUNCTIONS  /////
+
+/**
+ * Function that runs on startup.
+ */
 function init() {
     board = ["", "W", "", "W", "", "W", "", "W",
             "W", "", "W", "", "W", "", "W", "",
@@ -37,6 +41,9 @@ function init() {
     render();
 }
 
+/**
+ * Takes care of the any board set up
+ */
 function render() {
     board.forEach(function(piece, index) {
         if (piece === "W") createPiece(index, "white");
@@ -51,7 +58,23 @@ function render() {
  */
 function takeTurn(e) {
     let target = e.target;
-    let id = target.parentElement.id;
+    let id = target.parentElement.id - 1;
+
+    if (board[id] === "B") {
+        if (areValidMoves(id, "black") !== []) {
+            moves = areValidMoves(id, "black");
+            for (var i = 0; i <= moves.length; i++) {
+                addListener(document.getElementById(String(moves[i])).firstElementChild);
+            }
+
+            for (var i = 0; i <= moves.length; i++) {
+                moveTo = moves[i];
+                if (clicked.parentElement.id == moveTo) {
+
+                }
+            }
+        } 
+    }
 
     // block turns by checking background color style of the piece
     //
@@ -60,22 +83,60 @@ function takeTurn(e) {
     // check the array index (id - 1) whether its empty or has a piece.
     // // if there is a piece, check for valid moves in the array itself
     // re render at the end by updating the clicked index and using removePiece
+}
+
+/**
+ * 
+ * @param index the starting point
+ * @param moveTo where the piece should be moved to
+ */
+function move(index, moveTo) {
 
 }
 
 /**
- * Check whether there are valid moves available (tentative: and highlights them).
+ * Return valid moves. 
+ * @param index index of the clicked piece
+ * @param color color determining which side is being checked
  */
-function isValidMoves() {
+function areValidMoves(index, color) {
+    let possibleMoves = [];
+    index -= 1;
 
+    if (color === "black") {
+        if (board[index - 9] == "") {
+            possibleMoves.push(9);
+        }
+        if (board[index - 7] == "") {
+            possibleMoves.push(7);
+        } 
+    } 
+    if (color === "white") {
+        if (board[index + 9] == "") {
+            possibleMoves.push(9);
+        }
+        if (board[index + 7] == "") {
+            possibleMoves.push(7);
+        } 
+    }
+    return possibleMoves;   
+    
+    
 
+    // todo add capturing logic
 }
 
 /**
  * Checks whether, after one move, the same piece can move again.
  */
-function canMoveAgain() {
+function canMoveAgain(index) {
+    let movePossible;
 
+
+
+
+
+    return movePossible;
 }
 
 /**
@@ -111,7 +172,21 @@ function removePiece(index) {
  * Gets and displays the winner of the game by checking if one side has zero pieces left.
  */
 function getWinner() {
-    let winner = null;
+    let amounts = [0, 0]; // first index black, second white
 
+    board.forEach((piece) => {
+        if (piece === "B") {
+            amounts[0] += 1;
+        }
+        if (piece === "W") {
+            amounts[1] += 1;
+        }
+    });
 
+    if (amounts[0] === 0) {
+        return "white"; 
+    } 
+    if (amounts[1] === 0) {
+        return "black";
+    }
 }
