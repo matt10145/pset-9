@@ -42,7 +42,7 @@ function init() {
 }
 
 /**
- * Takes care of the any board set up
+ * Takes care of game appearance after each turn based on the board array.
  */
 function render() {
     board.forEach(function(piece, index) {
@@ -60,20 +60,20 @@ function takeTurn(e) {
     let target = e.target;
     let id = target.parentElement.id - 1;
 
-    if (board[id] === "B") {
-        if (areValidMoves(id, "black") !== []) {
-            moves = areValidMoves(id, "black");
-            for (var i = 0; i <= moves.length; i++) {
-                addListener(document.getElementById(String(moves[i])).firstElementChild);
-            }
+    if (turn === "Black") {
+        if (board[id] === "B") {
+            if (areValidMoves(id, "black") !== []) {
+                moves = areValidMoves(id, "black");
+                
 
-            for (var i = 0; i <= moves.length; i++) {
-                moveTo = moves[i];
-                if (clicked.parentElement.id == moveTo) {
+                for (var i = 0; i <= moves.length; i++) {
+                    moveTo = moves[i];
+                    if (clicked.parentElement.id == moveTo) {
 
+                    }
                 }
-            }
-        } 
+            } 
+        }
     }
 
     // block turns by checking background color style of the piece
@@ -114,16 +114,15 @@ function areValidMoves(index, color) {
     if (color === "white") {
         if (board[index + 9] == "") {
             possibleMoves.push(9);
+        } else if (board[index + 9] == "B" && board[index + 18] == "") {
+            possibleMoves.push(18);
         }
         if (board[index + 7] == "") {
             possibleMoves.push(7);
         } 
     }
-    return possibleMoves;   
-    
-    
 
-    // todo add capturing logic
+    return possibleMoves;   
 }
 
 /**
@@ -163,16 +162,15 @@ function removePiece(index) {
     while (element.firstChild) {
         element.removeChild(element.firstChild);
     }
-
-
-    // this should work....just need to make sure it doesn't remove the entire board??
 }
 
 /**
- * Gets and displays the winner of the game by checking if one side has zero pieces left.
+ * Uses the present number of pieces to check if the game has been won or tied.
  */
 function getWinner() {
     let amounts = [0, 0]; // first index black, second white
+    let winner;
+    let turns = 0;
 
     board.forEach((piece) => {
         if (piece === "B") {
@@ -183,10 +181,10 @@ function getWinner() {
         }
     });
 
-    if (amounts[0] === 0) {
-        return "white"; 
-    } 
-    if (amounts[1] === 0) {
-        return "black";
-    }
+    (amounts[0] === 0) ? winner = "White" : winner;
+    (amounts[1] === 0) ? winner = "Black" : winner;
+    (amounts[0] === 1 && amounts[1] === 1) ? turns++ : turns;
+    (turns >= 20)? winner = "Tie" : winner;
+
+    return winner;
 }
