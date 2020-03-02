@@ -85,7 +85,6 @@ function render() {
         if (ballX > paddleX && ballX < paddleX + PADDLE_WIDTH) {
             dy = -dy;
             hits++;
-            console.log(hits);
         }
         else {
             alert("GAME OVER");
