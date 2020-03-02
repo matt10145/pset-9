@@ -25,6 +25,7 @@ let score;
 let wins = 0;
 let losses = 0;
 let initX = [-1.5, -1, -0.5, 0.5, 1, 1.5];
+let hits;
 
 ///// CACHED ELEMENT REFERENCES /////
 const canvas = document.getElementById("gameCanvas");
@@ -52,8 +53,9 @@ function init() {
     ballY = canvas.height - 20;
     paddleX = (canvas.width - PADDLE_WIDTH) / 2;
     dx = initX[Math.floor(Math.random(0, 1) * initX.length)];
-    dy = -3;
+    dy = -2;
     score = 0;
+    hits = 1;
 
     for (var c = 0; c < BRICK_COLUMNS; c++) {
         bricks[c] = [];
@@ -82,6 +84,8 @@ function render() {
     } else if (ballY + dy > canvas.height - BALL_RADIUS) {
         if (ballX > paddleX && ballX < paddleX + PADDLE_WIDTH) {
             dy = -dy;
+            hits++;
+            console.log(hits);
         }
         else {
             alert("GAME OVER");
@@ -95,6 +99,10 @@ function render() {
     // } else {
 
     // }
+
+    if (hits % 5 == 0) {
+        dy *= 1.005;
+    }
 
     ballX += dx;
     ballY += dy;
@@ -142,6 +150,7 @@ function collisionDetection() {
                     dy = -dy;
                     b.status = 0;
                     score++;
+                    hits++;
                     if (score == BRICK_ROWS * BRICK_COLUMNS) {
                         alert("YOU WIN!");
                         wins++;
