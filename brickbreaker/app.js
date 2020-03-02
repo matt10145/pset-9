@@ -100,7 +100,7 @@ function render() {
     // }
 
     if (hits % 5 == 0) {
-        dy *= 1.005;
+        dy *= 1.004;
     }
 
     ballX += dx;
@@ -133,7 +133,29 @@ function drawBricks() {
                 bricks[c][r].y = BRICK_Y;
                 ctx.beginPath();
                 ctx.rect(BRICK_X, BRICK_Y, BRICK_WIDTH, BRICK_HEIGHT);
-                ctx.fillStyle = "#ffffff";
+                switch (c) {
+                    case 0: 
+                        ctx.fillStyle = "#ff1612";
+                        break;
+                    case 1: 
+                        ctx.fillStyle = "#ff8812";
+                        break;
+                    case 2: 
+                        ctx.fillStyle = "#ffe863";
+                        break;
+                    case 3: 
+                        ctx.fillStyle = "#54ffaa";
+                        break;
+                    case 4: 
+                        ctx.fillStyle = "#54b5ff";
+                        break;
+                    case 5: 
+                        ctx.fillStyle = "#a754ff";
+                        break;
+                    case 6: 
+                        ctx.fillStyle = "ffffff";
+                        break;
+                }
                 ctx.fill();
                 ctx.closePath();
             }
