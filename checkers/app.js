@@ -62,7 +62,7 @@ function takeTurn(e) {
 
     if (turn === "BLACK") {
         if (board[id] === "B") {
-            moves = areValidMoves(id, "black");
+            moves = areValidMoves(id, "B");
             if (moves !== []) {
                 let nextIndex;
                 playingBoard.addEventListener("click", function(event) {
@@ -70,6 +70,7 @@ function takeTurn(e) {
                         return square === event.target;
                     });
                 });
+                console.log(nextIndex);
                 moves.forEach((move) => {
                     if (nextIndex === (id - move)) {
                         board[nextIndex] = "B";
@@ -84,32 +85,30 @@ function takeTurn(e) {
             }
         } 
     }
-    if (turn === "WHITE") {
-        if (board[id] === "W") {
-            moves = areValidMoves(id, "white");
-            if (moves !== []) {
-                let nextIndex;
-                playingBoard.addEventListener("click", function(event) {
-                    nextIndex = squares.findIndex(function(square) {
-                        return square === event.target;
-                    });
-                });
-                console.log(moves)
-                console.log(nextIndex)
-                moves.forEach((move) => {
-                    if (nextIndex === (id + move)) {
-                        board[nextIndex] = "W";
-                        board[id] = "";
-                        removePiece(id);
-                        render();
-                    } else {
+    // if (turn === "WHITE") {
+    //     if (board[id] === "W") {
+    //         moves = areValidMoves(id, "white");
+    //         if (moves !== []) {
+    //             let nextIndex;
+    //             playingBoard.addEventListener("click", function(event) {
+    //                 nextIndex = squares.findIndex(function(square) {
+    //                     return square === event.target;
+    //                 });
+    //             });
+    //             moves.forEach((move) => {
+    //                 if (nextIndex === (id + move)) {
+    //                     board[nextIndex] = "W";
+    //                     board[id] = "";
+    //                     removePiece(id);
+    //                     render();
+    //                 } else {
 
-                    }
-                });
+    //                 }
+    //             });
 
-            }
-        } 
-    }
+    //         }
+    //     } 
+    // }
 
 }
 
@@ -136,7 +135,7 @@ function takeTurn(e) {
 function areValidMoves(index, color) {
     let possibleMoves = [];
 
-    if (color === "black") {
+    if (color === "B") {
         if (board[index - 9] == "") {
             possibleMoves.push(9);
         }
@@ -144,7 +143,7 @@ function areValidMoves(index, color) {
             possibleMoves.push(7);
         } 
     } 
-    if (color === "white") {
+    if (color === "W") {
         if (board[index + 9] == "") {
             possibleMoves.push(9);
         } else if (board[index + 9] == "B" && board[index + 18] == "") {
