@@ -39,6 +39,7 @@ window.onload = function() {
 };
 
 document.getElementById("reset-button").onclick = init;
+interval = setInterval(render, 10);
 
 
 ///// FUNCTIONS /////
@@ -47,12 +48,11 @@ document.getElementById("reset-button").onclick = init;
  * Function that runs on page startup to assign variable values and to render the canvas.
  */
 function init() {
-    interval = setInterval(render, 10);
     ballX = canvas.width / 2;
     ballY = canvas.height - 20;
     paddleX = (canvas.width - PADDLE_WIDTH) / 2;
     dx = initX[Math.floor(Math.random(0, 1) * initX.length)];
-    dy = -2;
+    dy = -3;
     score = 0;
 
     for (var c = 0; c < BRICK_COLUMNS; c++) {
@@ -87,7 +87,6 @@ function render() {
             alert("GAME OVER");
             losses++;
             init();
-            clearInterval(interval); 
         }
     }
     // if (ballY == 540 && (ballX > paddleX - 35) || ballX < paddleX + 35) {
@@ -146,9 +145,7 @@ function collisionDetection() {
                     if (score == BRICK_ROWS * BRICK_COLUMNS) {
                         alert("YOU WIN!");
                         wins++;
-                        init();
-                        clearInterval(interval); 
-                        
+                        init();                        
                     }
                 }
             }
