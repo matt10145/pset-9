@@ -152,9 +152,6 @@ function drawBricks() {
                     case 5: 
                         ctx.fillStyle = "#a754ff";
                         break;
-                    case 6: 
-                        ctx.fillStyle = "ffffff";
-                        break;
                 }
                 ctx.fill();
                 ctx.closePath();
