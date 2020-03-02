@@ -21,8 +21,10 @@ let dx;
 let dy;
 let bricks = [];
 let interval;
-let wins;
-let losses;
+let score;
+let wins = 0;
+let losses = 0;
+let initX = [-1.5, -1, -0.5, 0.5, 1, 1.5];
 
 ///// CACHED ELEMENT REFERENCES /////
 const canvas = document.getElementById("gameCanvas");
@@ -33,7 +35,6 @@ const scoreUpdate = document.getElementById("scorekeeper");
 window.onload = function() {
     init();
 
-    interval = setInterval(render, 10);
     canvas.addEventListener('mousemove', updateMouse);
 };
 
@@ -43,13 +44,13 @@ window.onload = function() {
  * Function that runs on page startup to assign variable values and to render the canvas.
  */
 function init() {
+    interval = setInterval(render, 10);
     ballX = canvas.width / 2;
     ballY = canvas.height - 20;
     paddleX = (canvas.width - PADDLE_WIDTH) / 2;
-    dx = 1;
+    dx = initX[Math.floor(Math.random(0, 1) * initX.length)];
     dy = -2;
-    wins = 0;
-    losses = 0;
+    score = 0;
 
     for (var c = 0; c < BRICK_COLUMNS; c++) {
         bricks[c] = [];
@@ -68,7 +69,7 @@ function render() {
     collisionDetection();
     drawBricks();
 
-
+    scoreUpdate.textContent = `WINS: ${wins} | LOSSES: ${losses}`;
 
     if (ballX + dx > canvas.width - BALL_RADIUS || ballX + dx < BALL_RADIUS) {
         dx = -dx;
@@ -81,7 +82,8 @@ function render() {
         }
         else {
             alert("GAME OVER");
-            document.location.reload();
+            losses++;
+            init();
             clearInterval(interval); 
         }
     }
@@ -138,10 +140,12 @@ function collisionDetection() {
                     dy = -dy;
                     b.status = 0;
                     score++;
-                    if (score == BRICK_ROWS*BRICK_COLUMNS) {
+                    if (score == BRICK_ROWS * BRICK_COLUMNS) {
                         alert("YOU WIN!");
-                        document.location.reload();
+                        wins++;
+                        init();
                         clearInterval(interval); 
+                        
                     }
                 }
             }
