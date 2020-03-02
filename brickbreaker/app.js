@@ -11,7 +11,7 @@ const BRICK_HEIGHT = 15;
 const BRICK_PADDING = 10;
 const BRICK_OFFSET_TOP = 30;
 const BRICK_OFFSET_LEFT = 30;
-const SPEED_MULTIPLIER = 3.14;
+// const SPEED_MULTIPLIER = 3.14;
 
 ///// APP STATE (VARIABLES) /////
 let ballX;
@@ -21,11 +21,13 @@ let dx;
 let dy;
 let bricks = [];
 let interval;
-let score;
+let wins;
+let losses;
 
 ///// CACHED ELEMENT REFERENCES /////
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
+const scoreUpdate = document.getElementById("scorekeeper");
 
 ///// EVENTS & LISTENERS /////
 window.onload = function() {
@@ -46,7 +48,8 @@ function init() {
     paddleX = (canvas.width - PADDLE_WIDTH) / 2;
     dx = 1;
     dy = -2;
-    score = 0;
+    wins = 0;
+    losses = 0;
 
     for (var c = 0; c < BRICK_COLUMNS; c++) {
         bricks[c] = [];
@@ -64,6 +67,8 @@ function render() {
     drawPaddle();
     collisionDetection();
     drawBricks();
+
+
 
     if (ballX + dx > canvas.width - BALL_RADIUS || ballX + dx < BALL_RADIUS) {
         dx = -dx;
@@ -142,12 +147,6 @@ function collisionDetection() {
             }
         }
     }
-}
-
-function drawScore() {
-    ctx.font = "16px Arial";
-    ctx.fillStyle = "#0095DD";
-    ctx.fillText("Score: " + score, 8, 20);
 }
 
 function updateMouse(e) {
