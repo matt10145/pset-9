@@ -70,10 +70,8 @@ function takeTurn(e) {
                         return square === event.target;
                     });
                 });
-
-                
                 moves.forEach((move) => {
-                    if (nextIndex === move) {
+                    if (nextIndex === (id - move)) {
                         board[nextIndex] = "B";
                         board[id] = "";
                         removePiece(id);
@@ -86,6 +84,33 @@ function takeTurn(e) {
             }
         } 
     }
+    if (turn === "WHITE") {
+        if (board[id] === "W") {
+            moves = areValidMoves(id, "white");
+            if (moves !== []) {
+                let nextIndex;
+                playingBoard.addEventListener("click", function(event) {
+                    nextIndex = squares.findIndex(function(square) {
+                        return square === event.target;
+                    });
+                });
+                console.log(moves)
+                console.log(nextIndex)
+                moves.forEach((move) => {
+                    if (nextIndex === (id + move)) {
+                        board[nextIndex] = "W";
+                        board[id] = "";
+                        removePiece(id);
+                        render();
+                    } else {
+
+                    }
+                });
+
+            }
+        } 
+    }
+
 }
 
     // bruh literally just add another eventlistener to the whole board, use findindex to get
@@ -102,16 +127,6 @@ function takeTurn(e) {
     // check the array index (id - 1) whether its empty or has a piece.
     // // if there is a piece, check for valid moves in the array itself
     // re render at the end by updating the clicked index and using removePiece
-
-
-/**
- * 
- * @param index the starting point
- * @param moveTo where the piece should be moved to
- */
-function move(index, moveTo) {
-
-}
 
 /**
  * Return valid moves. 
