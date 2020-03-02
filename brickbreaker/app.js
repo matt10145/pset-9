@@ -38,6 +38,9 @@ window.onload = function() {
     canvas.addEventListener('mousemove', updateMouse);
 };
 
+document.getElementById("reset-button").onclick = init;
+
+
 ///// FUNCTIONS /////
 
 /**
