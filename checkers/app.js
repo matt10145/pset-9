@@ -10,6 +10,7 @@ let blackScore;
 ///// CACHED ELEMENT REFERENCES  /////
 const squares = Array.from(document.querySelectorAll("#board div"));
 const turnUpdate = document.getElementById("turnUpdate");
+const playingBoard = document.getElementById("board");
 
 ///// EVENT LISTENERS /////
 window.onload = function() {
@@ -59,21 +60,33 @@ function takeTurn(e) {
     let target = e.target;
     let id = target.parentElement.id - 1;
 
-    if (turn === "Black") {
+    if (turn === "BLACK") {
         if (board[id] === "B") {
-            if (areValidMoves(id, "black") !== []) {
-                moves = areValidMoves(id, "black");
+            moves = areValidMoves(id, "black");
+            if (moves !== []) {
+                let nextIndex;
+                playingBoard.addEventListener("click", function(event) {
+                    nextIndex = squares.findIndex(function(square) {
+                        return square === event.target;
+                    });
+                });
 
-
-                for (var i = 0; i <= moves.length; i++) {
-                    moveTo = moves[i];
-                    if (clicked.parentElement.id == moveTo) {
+                
+                moves.forEach((move) => {
+                    if (nextIndex === move) {
+                        board[nextIndex] = "B";
+                        board[id] = "";
+                        removePiece(id);
+                        render();
+                    } else {
 
                     }
-                }
-            } 
-        }
+                });
+
+            }
+        } 
     }
+}
 
     // bruh literally just add another eventlistener to the whole board, use findindex to get
     // the second clicked, and then match it up with the areValidMoves. If no matches, then 
@@ -89,7 +102,7 @@ function takeTurn(e) {
     // check the array index (id - 1) whether its empty or has a piece.
     // // if there is a piece, check for valid moves in the array itself
     // re render at the end by updating the clicked index and using removePiece
-}
+
 
 /**
  * 
@@ -107,7 +120,6 @@ function move(index, moveTo) {
  */
 function areValidMoves(index, color) {
     let possibleMoves = [];
-    index -= 1;
 
     if (color === "black") {
         if (board[index - 9] == "") {
