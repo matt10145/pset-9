@@ -7,6 +7,7 @@ let win;
 let whiteScore;
 let blackScore;
 let pieceSelected;
+let possibleMoves;
 
 ///// CACHED ELEMENT REFERENCES  /////
 const squares = Array.from(document.querySelectorAll("#board div"));
@@ -16,10 +17,9 @@ const playingBoard = document.getElementById("board");
 ///// EVENT LISTENERS /////
 window.onload = function() {
     init();
-    selectOrTurn();
-
 }
 document.getElementById("reset-button").onclick = init;
+selectOrTurn();
 
 ///// FUNCTIONS  /////
 
@@ -40,6 +40,7 @@ function init() {
     whiteScore = 0;
     blackScore = 0;
     pieceSelected = false;
+    possibleMoves = [];
 
     render();
 }
@@ -56,57 +57,46 @@ function render() {
     turnUpdate.textContent = `TURN: ${turn}`;
 }
 
+function selectOrTurn() {
+    if (pieceSelected) {
+        document.getElementById("board").removeEventListener("click", selectPiece);
+        document.getElementById("board").addEventListener("click", takeTurn);
+    } else {
+        document.getElementById("board").removeEventListener("click", takeTurn);
+        document.getElementById("board").addEventListener("click", selectPiece);
+
+    }
+}
+
 function selectPiece(e) {
     if (!win) {
-        let selectedPiece = "";
+        let selectedPiece;
         selectedPiece = squares.findIndex(function(square){
             return square === e.target;
         });
         if (board[selectedPiece] === turn.charAt(0)){
             pieceSelected = true;
         }
+        moves = getValidMoves(selectedPiece, turn.charAt(0));
         selectOrTurn();
     }
 }
 
-function selectOrTurn() {
-    if (pieceSelected === true){
-        document.getElementById("board").removeEventListener("click", selectPiece);
-        document.getElementById("board").addEventListener("click", takeTurn);
-        console.log("looking");
-    } else {
-        document.getElementById("board").removeEventListener("click", takeTurn);
-        document.getElementById("board").addEventListener("click", selectPiece);
-    }
-}
-
 function takeTurn(e) {
-    let target = e.target;
-    let id = target.parentElement.id - 1;
+    let index = squares.findIndex(function(square) {
+        return square === e.target;
+    });
+    index -= 1;
 
     if (turn === "BLACK") {
-        if (board[id] === "B") {
-            moves = areValidMoves(id, "B");
-            if (moves !== []) {
-                let nextIndex;
-                playingBoard.addEventListener("click", function(event) {
-                    nextIndex = squares.findIndex(function(square) {
-                        return square === event.target;
-                    });
-                });
-                moves.forEach((move) => {
-                    if (nextIndex === (id - move)) {
-                        board[nextIndex] = "B";
-                        board[id] = "";
-                        removePiece(id);
-                        render();
-                    } else {
-
-                    }
-                });
-
+        moves.forEach(place => {
+            if (index == place) {
+                
             }
-        } 
+        });
+        
+
+
     }
 
 }
@@ -128,16 +118,18 @@ function takeTurn(e) {
  * @param index index of the clicked piece
  * @param color color determining which side is being checked
  */
-function areValidMoves(index, color) {
-    let possibleMoves = [];
-
+function getValidMoves(index, color) {
     if (color === "B") {
         if (board[index - 9] == "") {
             possibleMoves.push(9);
-        }
+        } 
         if (board[index - 7] == "") {
             possibleMoves.push(7);
         } 
+        if (board[index - 18] == "" && board[index - 9] == "W") {
+            possibleMoves.push(18);
+
+        }
     } 
     if (color === "W") {
         if (board[index + 9] == "") {
@@ -179,17 +171,6 @@ function createPiece(index, color) {
     div.style.borderRadius = "50%";
     div.style.backgroundColor = color;
     outer.append(div);
-}
-
-/**
- * Removes pieces from the checkerboard (referenced in takeTurn).
- * @param index the id of the piece to be removed
- */
-function removePiece(index) {
-    let element = document.getElementById(String(index));
-    while (element.firstChild) {
-        element.removeChild(element.firstChild);
-    }
 }
 
 /**
