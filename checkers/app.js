@@ -89,11 +89,23 @@ function takeTurn(e) {
     index -= 1;
 
     if (turn === "BLACK") {
-        moves.forEach(place => {
-            if (index == place) {
-                
+        initial = possibleMoves[0];
+        possibleMoves.forEach(place => {
+            if (index - initial == place) {
+                board[index] = "B";
+                board[initial] = "";
+                console.log("testing");
+                render();
+            }
+            if (getWinner !== "") {
+
             }
         });
+
+
+    if (turn === "WHITE") {
+
+    }
         
 
 
@@ -119,6 +131,9 @@ function takeTurn(e) {
  * @param color color determining which side is being checked
  */
 function getValidMoves(index, color) {
+    possibleMoves = [];
+    possibleMoves.push(index);
+
     if (color === "B") {
         if (board[index - 9] == "") {
             possibleMoves.push(9);
