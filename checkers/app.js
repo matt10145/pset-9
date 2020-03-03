@@ -6,6 +6,7 @@ let board;
 let win;
 let whiteScore;
 let blackScore;
+let pieceSelected;
 
 ///// CACHED ELEMENT REFERENCES  /////
 const squares = Array.from(document.querySelectorAll("#board div"));
@@ -15,9 +16,9 @@ const playingBoard = document.getElementById("board");
 ///// EVENT LISTENERS /////
 window.onload = function() {
     init();
+    selectOrTurn();
 
 }
-document.getElementById("board").onclick = takeTurn;
 document.getElementById("reset-button").onclick = init;
 
 ///// FUNCTIONS  /////
@@ -38,6 +39,7 @@ function init() {
     win = null;
     whiteScore = 0;
     blackScore = 0;
+    pieceSelected = false;
 
     render();
 }
@@ -50,12 +52,34 @@ function render() {
         if (piece === "W") createPiece(index, "white");
         if (piece === "B") createPiece(index, "black");
     });
+
     turnUpdate.textContent = `TURN: ${turn}`;
 }
 
-/**
- * The actual function that runs on a checker piece click. 
- */
+function selectPiece(e) {
+    if (!win) {
+        let selectedPiece = "";
+        selectedPiece = squares.findIndex(function(square){
+            return square === e.target;
+        });
+        if (board[selectedPiece] === turn.charAt(0)){
+            pieceSelected = true;
+        }
+        selectOrTurn();
+    }
+}
+
+function selectOrTurn() {
+    if (pieceSelected === true){
+        document.getElementById("board").removeEventListener("click", selectPiece);
+        document.getElementById("board").addEventListener("click", takeTurn);
+        console.log("looking");
+    } else {
+        document.getElementById("board").removeEventListener("click", takeTurn);
+        document.getElementById("board").addEventListener("click", selectPiece);
+    }
+}
+
 function takeTurn(e) {
     let target = e.target;
     let id = target.parentElement.id - 1;
@@ -70,7 +94,6 @@ function takeTurn(e) {
                         return square === event.target;
                     });
                 });
-                console.log(nextIndex);
                 moves.forEach((move) => {
                     if (nextIndex === (id - move)) {
                         board[nextIndex] = "B";
@@ -85,30 +108,6 @@ function takeTurn(e) {
             }
         } 
     }
-    // if (turn === "WHITE") {
-    //     if (board[id] === "W") {
-    //         moves = areValidMoves(id, "white");
-    //         if (moves !== []) {
-    //             let nextIndex;
-    //             playingBoard.addEventListener("click", function(event) {
-    //                 nextIndex = squares.findIndex(function(square) {
-    //                     return square === event.target;
-    //                 });
-    //             });
-    //             moves.forEach((move) => {
-    //                 if (nextIndex === (id + move)) {
-    //                     board[nextIndex] = "W";
-    //                     board[id] = "";
-    //                     removePiece(id);
-    //                     render();
-    //                 } else {
-
-    //                 }
-    //             });
-
-    //         }
-    //     } 
-    // }
 
 }
 
@@ -118,9 +117,6 @@ function takeTurn(e) {
     // if it isn't then check
     // if there are no matches, then... yeah do nothing
 
-
-    // block turns by checking background color style of the piece
-    //
 
     // take turns by getting id of parent element, which I have, and then
     // check the array index (id - 1) whether its empty or has a piece.
