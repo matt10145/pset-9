@@ -88,7 +88,7 @@ a:hover {
 
 .square {
     border: 1px solid rgba(0, 0, 0, 0.75);
-    font-size: 96px;
+    font-size: 40px;
     height: 80px;
     line-height: 150px;
     user-select: none;
@@ -116,7 +116,7 @@ a:hover {
 
 .selected-piece {
     font-weight: bold;
-    color: red;
+    color: blue;
 }
 
 .available-move {
@@ -127,7 +127,7 @@ a:hover {
     background-color: red;
 }
 
-#reset-button {
+#reset {
     background-color: white;
     border: 1px solid black;
     color: black;
@@ -139,7 +139,7 @@ a:hover {
     width: 456px;
 }
 
-#reset-button:hover {
+#reset:hover {
     background-color: black;
     color: white;
     cursor: pointer;

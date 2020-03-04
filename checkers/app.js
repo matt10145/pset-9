@@ -6,7 +6,7 @@ let board;
 let win;
 let whiteScore = 0;
 let blackScore = 0;
-let pieceSelected;
+let pieceSelected = false;
 let possibleMoves;
 let selectedPiece;
 
@@ -18,10 +18,8 @@ const wScore = document.getElementById("whiteScore");
 const bScore = document.getElementById("blackScore");
 
 ///// EVENT LISTENERS /////
-window.onload = function() {
-    init();
-}
-document.getElementById("reset-button").onclick = init;
+window.onload = init;
+document.getElementById("reset").onclick = init;
 selectOrTurn();
 
 ///// FUNCTIONS  /////
@@ -40,7 +38,6 @@ function init() {
             "B", "", "B", "", "B", "", "B", "",];
     turn = "BLACK";
     win = null;
-    pieceSelected = false;
 
     render();
 }
@@ -50,15 +47,7 @@ function init() {
  */
 function render() {
     board.forEach(function(piece, index) {
-        if (piece == "W") {
-            squares[index].textContent = piece;
-            squares[index].style.color = "white";
-        } 
-        if (piece == "B") {
-            squares[index].textContent = piece;
-            squares[index].style.color = "black";
-
-        }
+        squares[index].textContent = piece;
         squares[index].classList.remove('remove-9', 'remove-7', 'remove+9',
         'remove+7', 'can-move', 'can-jump');
         (!squares[index].classList.contains('king') && piece == "B" && index > 55)?
@@ -85,6 +74,9 @@ function selectOrTurn() {
     }
 }
 
+/**
+ * Function that toggles piece selection, and redirects the flow to selectOrTurn(). 
+ */
 function selectPiece(e) {
     if (!win) {
         selectedPiece = "";
@@ -99,6 +91,9 @@ function selectPiece(e) {
     }  
 }
 
+/**
+ * The bulk of this game program. Edits the board array and renders the board accordingly.
+ */
 function takeTurn(e) {
     let index = squares.findIndex(function(square) {
         return square === e.target;
