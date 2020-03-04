@@ -109,6 +109,25 @@ a:hover {
     cursor: pointer;
 }
 
+.king {
+    font-weight: bold;
+    color: yellow;
+    font-family: Impact, Charcoal, sans-serif;
+}
+
+.selected-piece {
+    font-weight: bold;
+    color: red;
+}
+
+.available-move {
+    background-color: green;
+}
+
+.available-jump {
+    background-color: red;
+}
+
 #reset-button {
     background-color: white;
     border: 1px solid black;
