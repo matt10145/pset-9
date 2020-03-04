@@ -9,6 +9,7 @@ let blackScore = 0;
 let pieceSelected = false;
 let possibleMoves;
 let selectedPiece;
+let turns = 0;
 
 ///// CACHED ELEMENT REFERENCES  /////
 const squares = Array.from(document.querySelectorAll("#board div"));
@@ -35,7 +36,7 @@ function init() {
             "", "", "", "", "", "", "", "",
             "B", "", "B", "", "B", "", "B", "",
             "", "B", "", "B", "", "B", "", "B",
-            "B", "", "B", "", "B", "", "B", "",];
+            "B", "", "B", "", "B", "", "B", ""];
     turn = "BLACK";
     win = null;
 
@@ -46,19 +47,31 @@ function init() {
  * Takes care of game appearance after each turn based on the board array.
  */
 function render() {
-    board.forEach(function(piece, index) {
-        squares[index].textContent = piece;
+    board.forEach(function(mark, index) {
+        squares[index].textContent = mark;
         squares[index].classList.remove('remove-9', 'remove-7', 'remove+9',
-        'remove+7', 'can-move', 'can-jump');
-        (!squares[index].classList.contains('king') && piece == "B" && index > 55)?
-        squares[index].classList.add('king') : index;
-        (!squares[index].classList.contains('king') && piece == "W" && index < 8)?
-        squares[index].classList.add('king') : index;
-    });
+        'remove+7', 'available-move', 'available-jump');
+        (!squares[index].classList.contains('king') && mark == "W" && index > 55)?
+          squares[index].classList.add('king') : index;
+        (!squares[index].classList.contains('king') && mark == "B" && index < 8)?
+          squares[index].classList.add('king') : index;
+      });
+      turnUpdate.textContent =
+        win === "tie" ? "It's a tie!" : win ? `${win} wins!` : `Turn: ${turn.toUpperCase()}`;
+    
+    // board.forEach(function(piece, index) {
+    //     squares[index].textContent = piece;
+    //     squares[index].classList.remove('remove-9', 'remove-7', 'remove+9',
+    //     'remove+7', 'can-move', 'can-jump');
+    //     (!squares[index].classList.contains('king') && piece == "B" && index > 55) ?
+    //     squares[index].classList.add('king') : index;
+    //     (!squares[index].classList.contains('king') && piece == "W" && index < 8) ?
+    //     squares[index].classList.add('king') : index;
+    // });
 
-    bScore.textContent = blackScore;
-    wScore.textContent = whiteScore;
-    turnUpdate.textContent = win === "tie" ? "TIE GAME" : win ? `${win} WINS!` : `TURN: ${turn}`;
+    // bScore.textContent = blackScore;
+    // wScore.textContent = whiteScore;
+    // turnUpdate.textContent = win === "tie" ? "TIE GAME" : win ? `${win} WINS!` : `TURN: ${turn}`;
 }
 
 /**
@@ -83,32 +96,32 @@ function selectPiece(e) {
         selectedPiece = squares.findIndex(function(square){
           return square === e.target;
         });
-        if (board[selectedPiece] === turn.charAt(0)){
+        if(board[selectedPiece] === turn.charAt(0)){
           pieceSelected = true;
           squares[selectedPiece].classList.toggle('selected-piece');
         }
-        selectOrTurn();
     }  
+    selectOrTurn();
 }
 
 /**
  * The bulk of this game program. Edits the board array and renders the board accordingly.
  */
-function takeTurn(e) {
+function takeTurn(e) {    
     let index = squares.findIndex(function(square) {
         return square === e.target;
     });
-    (turn === "BLACK") ? getValidMoves(index, "B") : getValidMoves(index, "W");
+    (turn === "WHITE") ? getValidMoves(index, "W") : getValidMoves(index, "B");
 
     if (board[index] === "" && index !== selectedPiece && squares[index].classList.contains("can-move")) {
-        (turn === "BLACK") ? board[index] = "B" : board[index] = "W";
+        (turn === "WHITE") ? board[index] = "W" : board[index] = "B";
         if (squares[selectedPiece].classList.contains('king')) {
             squares[index].classList.add('king');
             squares[selectedPiece].classList.remove('king');
         }
         board[selectedPiece] = "";
         squares[selectedPiece].classList.toggle('selected-piece');
-        turn = turn === "BLACK" ? "WHITE" : "BLACK";
+        turn = turn === "WHITE" ? "BLACK" : "WHITE";
         win = getWinner();
         pieceSelected = false;
         render();
@@ -122,10 +135,10 @@ function takeTurn(e) {
             squares[selectedPiece].classList.remove('king');
         }
 
-        (turn === "BLACK")? board[index] = "B": board[index] = "W";
+        (turn === "WHITE")? board[index] = "W" : board[index] = "B";
         board[selectedPiece] = "";
         squares[selectedPiece].classList.toggle('selected-piece');
-        turn = turn === "BLACK" ? "WHITE" : "BLACK";
+        turn = turn === "WHITE" ? "BLACK" : "WHITE";
 
         if (squares[index].classList.contains("remove-9")){
             board[selectedPiece - 9] = "";
@@ -144,16 +157,16 @@ function takeTurn(e) {
 }
 
 /**
- * Return valid moves. 
+ * Add valid moves to the class list.
  * @param index index of the clicked piece
  * @param color color determining which side is being checked
  */
 function getValidMoves(index, color) {
     if (color === "B") {
         if (selectedPiece !== "" && board[index] == "") {
-            (selectedPiece % 8 !==0 && board[selectedPiece + 7] ==="") ?
+            (selectedPiece % 8 !== 0 && board[selectedPiece + 7] === "") ?
             squares[selectedPiece + 7].classList.add('can-move') : selectedPiece;
-            (selectedPiece % 8 !== 7 && board[selectedPiece + 9] ==="") ?
+            (selectedPiece % 8 !== 7 && board[selectedPiece + 9] === "") ?
             squares[selectedPiece + 9].classList.add('can-move') : selectedPiece;
             (selectedPiece % 8 !== 0 && selectedPiece % 8 !== 1 && board[selectedPiece + 14] === "" && board[selectedPiece+7] === "W")?
             squares[selectedPiece + 14].classList.add('can-jump', 'remove+7') : selectedPiece;
@@ -173,9 +186,9 @@ function getValidMoves(index, color) {
     }
     if (color === "W") {
         if (selectedPiece !== "" && board[index] === "") {
-            (selectedPiece % 8 !== 7 && board[selectedPiece - 7] === "")?
+            (selectedPiece % 8 !== 7 && board[selectedPiece - 7] === "") ?
             squares[selectedPiece - 7].classList.add('can-move') : selectedPiece;
-            (selectedPiece % 8 !== 0 && board[selectedPiece - 9] === "")?
+            (selectedPiece % 8 !== 0 && board[selectedPiece - 9] === "") ?
             squares[selectedPiece - 9].classList.add('can-move') : selectedPiece;
             (selectedPiece % 8 !== 1 && selectedPiece % 8 !== 0 && board[selectedPiece - 18] === "" && board[selectedPiece - 9] === "B")?
             squares[selectedPiece - 18].classList.add('can-jump', 'remove-9') : selectedPiece;
@@ -183,9 +196,9 @@ function getValidMoves(index, color) {
             squares[selectedPiece - 14].classList.add('can-jump', 'remove-7') : selectedPiece;
         }
         if (squares[selectedPiece].classList.contains('king')) {
-            (selectedPiece % 8 !==0 && board[selectedPiece + 7] === "")?
+            (selectedPiece % 8 !==0 && board[selectedPiece + 7] === "") ?
             squares[selectedPiece + 7].classList.add('can-move') : selectedPiece;
-            (selectedPiece % 8 !==7 && board[selectedPiece + 9] ==="")?
+            (selectedPiece % 8 !==7 && board[selectedPiece + 9] === "") ?
             squares[selectedPiece + 9].classList.add('can-move') : selectedPiece;
             (selectedPiece % 8 !==1 && selectedPiece % 8 !== 0 && board[selectedPiece + 14] === "" && board[selectedPiece + 7] === "B")?
             squares[selectedPiece + 14].classList.add('can-jump', 'remove+7') : selectedPiece;
@@ -215,23 +228,35 @@ function createPiece(index, color) {
  * Uses the present number of pieces to check if the game has been won or tied.
  */
 function getWinner() {
-    let amounts = [0, 0]; // first index black, second white
-    let winner = "";
-    let turns = 0;
-
-    board.forEach((piece) => {
-        if (piece === "B") {
-            amounts[0] += 1;
-        }
-        if (piece === "W") {
-            amounts[1] += 1;
-        }
+    let winner = null;
+    let countBlack = 0;
+    let countWhite = 0;
+    board.forEach(function(mark){
+      (mark === "B")? countBlack++: countBlack;
+      (mark === "W")? countWhite++: countWhite;
     });
+    (countBlack === 0)? winner = "White": winner;
+    (countWhite === 0)? winner = "Black": winner;
+    (countBlack === 1 && countWhite === 1)? turnCount++ : turnCount;
+    (turnCount>=20)? winner = "tie" : winner;
+    return winner;  
+    // let amounts = [0, 0]; // first index black, second white
+    // let winner = "";
+    // let turns = 0;
 
-    (amounts[0] === 0) ? winner = "White" : winner = "";
-    (amounts[1] === 0) ? winner = "Black" : winner = "";
-    (amounts[0] === 1 && amounts[1] === 1) ? turns++ : turns;
-    (turns >= 20)? winner = "tie" : winner = ""; // stalemate safety
+    // board.forEach((piece) => {
+    //     if (piece === "B") {
+    //         amounts[0] += 1;
+    //     }
+    //     if (piece === "W") {
+    //         amounts[1] += 1;
+    //     }
+    // });
 
-    return winner;
+    // (amounts[0] === 0) ? winner = "White" : winner = "";
+    // (amounts[1] === 0) ? winner = "Black" : winner = "";
+    // (amounts[0] === 1 && amounts[1] === 1) ? turns++ : turns;
+    // (turns >= 20)? winner = "tie" : winner = ""; // stalemate safety
+
+    // return winner;
 }

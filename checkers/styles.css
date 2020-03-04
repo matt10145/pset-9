@@ -90,7 +90,6 @@ a:hover {
     border: 1px solid rgba(0, 0, 0, 0.75);
     font-size: 40px;
     height: 80px;
-    line-height: 150px;
     user-select: none;
     width: 80px;
 }
@@ -119,11 +118,11 @@ a:hover {
     color: blue;
 }
 
-.available-move {
+.can-move {
     background-color: green;
 }
 
-.available-jump {
+.can-jump {
     background-color: red;
 }
 
