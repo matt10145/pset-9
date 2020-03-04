@@ -113,8 +113,6 @@ function takeTurn(e) {
     });
     (turn === "BLACK") ? getValidMovesB(index) : getValidMovesW(index);
 
-    console.log(squares[index].classList)
-
     if (board[index] === "" && index !== selectedPiece &&
     squares[index].classList.contains('can-move')) {
         (turn === "BLACK") ? board[index] = "B" : board[index] = "W";
