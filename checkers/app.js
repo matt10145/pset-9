@@ -64,7 +64,7 @@ function render() {
     board.forEach(function(mark, index) {
         squares[index].textContent = mark;
         squares[index].classList.remove('remove-9', 'remove-7', 'remove+9',
-        'remove+7', 'can-move', 'can-jump');
+        'remove+7', 'can-move', 'can-jump', 'king');
         (!squares[index].classList.contains('king') && mark == "W" && index > 55)?
           squares[index].classList.add('king') : index;
         (!squares[index].classList.contains('king') && mark == "B" && index < 8)?
