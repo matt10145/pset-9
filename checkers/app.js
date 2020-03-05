@@ -9,6 +9,7 @@ let blackScore = 0;
 let pieceSelected = false;
 let selectedPiece;
 let turns = 0;
+let newGame = false;
 
 ///// CACHED ELEMENT REFERENCES  /////
 const squares = Array.from(document.querySelectorAll("#board div"));
@@ -16,11 +17,20 @@ const turnUpdate = document.getElementById("turnUpdate");
 const playingBoard = document.getElementById("board");
 const wScore = document.getElementById("whiteScore");
 const bScore = document.getElementById("blackScore");
+const resetButton = document.getElementById("button");
 
 ///// EVENT LISTENERS /////
 window.onload = init;
-document.getElementById("reset").onclick = init;
 selectOrTurn();
+
+resetButton.addEventListener("click", function(e) {
+    let clicked = e.target;
+
+    if (clicked.id === "reset") {
+        newGame = true;
+        init();
+    }
+})
 
 ///// FUNCTIONS  /////
 
@@ -52,7 +62,8 @@ function init() {
             "", "B", "", "B", "", "B", "", "B",
             "B", "", "B", "", "B", "", "B", ""];
     turn = "BLACK";
-    win = null;
+    win = "";
+
 
     render();
 }
@@ -64,14 +75,21 @@ function render() {
     board.forEach(function(mark, index) {
         squares[index].textContent = mark;
         squares[index].classList.remove('remove-9', 'remove-7', 'remove+9',
-        'remove+7', 'can-move', 'can-jump', 'king');
+        'remove+7', 'can-move', 'can-jump');
+        if (newGame) {
+            squares[index].classList.remove('king');
+        } else {
+            newGame = false;
+        }
         (!squares[index].classList.contains('king') && mark == "W" && index > 55)?
           squares[index].classList.add('king') : index;
         (!squares[index].classList.contains('king') && mark == "B" && index < 8)?
           squares[index].classList.add('king') : index;
       });
 
-    turnUpdate.textContent = win === "tie" ? "TIE GAME" : win ? `${win} WINS` : `TURN: ${turn}`;
+    wScore.textContent = whiteScore;
+    bScore.textContent = blackScore;
+    turnUpdate.textContent = win === "tie" ? "TIE GAME" : win ? `${win} WINS!` : `TURN: ${turn}`;
 }
 
 /**
@@ -213,7 +231,7 @@ function getValidMovesB(index) {
 function getWinner() {
     let white = 0;
     let black = 0;
-    let winner = null;
+    let winner = "";
 
     board.forEach((piece) => {
         if (piece === "B") {

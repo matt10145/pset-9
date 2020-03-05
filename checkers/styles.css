@@ -115,7 +115,7 @@ a:hover {
 
 .selected-piece {
     font-weight: bold;
-    color: blue;
+    color: lightseagreen;
 }
 
 .can-move {
